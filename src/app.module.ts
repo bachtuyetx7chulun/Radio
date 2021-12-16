@@ -1,10 +1,10 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
-import { ActionModule } from 'action/action.module'
 import { AppController } from 'app.controller'
 import { AppService } from 'app.service'
-import { AuthMiddleware } from 'auth/auth.middleware'
-import { AuthModule } from './auth/auth.module'
+import { AuthMiddleware } from 'components/auth/auth.middleware'
+import { AuthModule } from 'components/auth/auth.module'
+import { ActionModule } from 'components/action/action.module'
 
 @Module({
   imports: [
@@ -13,8 +13,8 @@ import { AuthModule } from './auth/auth.module'
       isGlobal: true,
       cache: true,
     }),
-    ActionModule,
     AuthModule,
+    ActionModule,
   ],
   controllers: [AppController],
   providers: [AppService],
