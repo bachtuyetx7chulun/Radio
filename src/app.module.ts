@@ -5,6 +5,7 @@ import { AppService } from 'app.service'
 import { AuthMiddleware } from 'components/auth/auth.middleware'
 import { AuthModule } from 'components/auth/auth.module'
 import { ActionModule } from 'components/action/action.module'
+import { EventsModule } from 'socket/socket.module'
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { ActionModule } from 'components/action/action.module'
     }),
     AuthModule,
     ActionModule,
+    EventsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
