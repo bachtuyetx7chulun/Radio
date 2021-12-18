@@ -1,0 +1,41 @@
+.home {
+  min-height: 100vh;
+  .title__wrapper {
+    height: 64px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    .title {
+      color: #fff;
+      margin: 0;
+      padding: 0;
+      font-size: 1.6rem;
+      padding: 1.5rem;
+    }
+  }
+  .layout {
+    .header,
+    .main {
+      background: #fff;
+    }
+
+    .header {
+      padding: 0;
+    }
+
+    .content {
+      margin: 0 16px;
+      .breadcrumb {
+        margin: 16px 0;
+      }
+      .main {
+        padding: 2.4rem;
+        min-height: 360px;
+      }
+    }
+
+    .footer {
+      text-align: center;
+    }
+  }
+}
