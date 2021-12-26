@@ -1,0 +1,158 @@
+.SearchBox {
+  width: 370px;
+  min-width: 370px;
+  background-color: rgb(253, 253, 253);
+  height: 100vh;
+  overflow-y: scroll;
+  overflow-x: hidden;
+
+  .SearchWrap {
+    margin: 5px 0;
+    padding: 5px;
+    border: 2px solid rgb(230, 230, 230);
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+  }
+
+  .FlexCenter {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    & > img {
+      width: 24px;
+      margin: 0 10px;
+    }
+  }
+
+  .Span {
+    color: rgb(153, 151, 151);
+    font-weight: 400;
+    font-size: 15px;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .SpanCrtl {
+    color: rgb(179, 179, 179);
+    font-weight: 600;
+    font-size: 15px;
+    font-family: 'Inter', sans-serif;
+    margin-right: 4px;
+  }
+
+  .SpanK {
+    color: rgb(100, 100, 100);
+    font-weight: 700;
+    font-size: 15px;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .SearchInput {
+    :global {
+      label {
+        cursor: pointer;
+      }
+      input {
+        color: rgb(60, 141, 235) !important;
+      }
+    }
+  }
+
+  .SearchSuggest {
+    margin: 10px 0;
+  }
+}
+
+:global {
+  .input-content {
+    width: calc(1.687 * 16pt * 0.62) !important;
+  }
+}
+
+.Title {
+  margin: 10px 0 0 0px !important;
+  & > span {
+    background-image: url('https://media4.giphy.com/media/l2SqcmBJxk04qUYrC/200w.webp?cid=ecf05e47itf1pit2w30fuikx7v2g2zboq7hmcesl6g1kx8ox&rid=200w.webp&ct=g');
+    background-size: cover;
+    color: transparent;
+    -moz-background-clip: text;
+    -webkit-background-clip: text;
+    text-transform: uppercase;
+    font-size: 20px;
+    line-height: 0.75;
+    margin: 10px 0;
+    font-weight: bold;
+    letter-spacing: 1px;
+  }
+}
+
+.Avatar {
+  width: 100px !important;
+  height: 100px !important;
+  margin: 0 auto !important;
+}
+
+.MarginLeft5 {
+  margin-left: 5px !important;
+}
+
+.MarginLeft10 {
+  margin-left: 10px !important;
+}
+
+.MarginTop5 {
+  margin-top: 5px !important;
+}
+
+.CardContent {
+  text-align: center;
+  margin-top: 2px !important;
+}
+
+.CardOptions {
+  width: 180px;
+  margin: 5px auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.OptionDetail {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & > img {
+    width: 20px;
+  }
+}
+
+.ListWrap {
+  padding: 5px 10px 10px 10px;
+}
+
+.ListItem {
+  margin-bottom: 10px !important;
+}
+
+.ItemWrap {
+  :global {
+    .card-body {
+      flex-direction: row !important;
+    }
+    .hoverable:hover {
+      transform: translateY(-2px);
+      box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px !important;
+    }
+  }
+}
+
+.AddButton {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  transform: translateX(5px);
+}

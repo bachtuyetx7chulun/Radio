@@ -1,0 +1,218 @@
+.ListTrack {
+  min-width: 370px;
+  max-width: 370px;
+  height: 100vh;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.Avatar {
+  width: 100px !important;
+  height: 100px !important;
+  margin: 0 auto !important;
+}
+
+.MarginLeft5 {
+  margin-left: 5px !important;
+}
+
+.MarginLeft10 {
+  margin-left: 10px !important;
+}
+
+.CardContent {
+  text-align: center;
+  margin-top: 2px !important;
+}
+
+.CardOptions {
+  width: 180px;
+  margin: 5px auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.OptionDetail {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & > img {
+    width: 20px;
+  }
+}
+
+.ListWrap {
+  padding: 5px 10px 10px 10px;
+}
+
+.ListItem {
+  margin-bottom: 10px !important;
+}
+
+.ItemWrap {
+  :global {
+    .card-body {
+      flex-direction: row !important;
+    }
+
+    .hoverable:hover {
+      transform: translateY(-2px);
+      box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px !important;
+    }
+  }
+}
+
+.Description {
+  display: flex;
+  justify-content: space-between;
+}
+
+.Likes {
+  &__Text {
+    font-size: 14px;
+    font-weight: bold;
+    color: rgb(214, 99, 54) !important;
+  }
+
+  &__Icon {
+    width: 15px;
+    height: 15px;
+    margin-left: 5px;
+    transform: translateY(3px);
+  }
+}
+
+.Minutes {
+  font-size: 14px;
+  margin-right: 10px;
+  font-weight: bold;
+
+  .MinutesLabel {
+    color: #3dda0e;
+  }
+
+  .MinutesValue {
+    margin-left: 5px;
+    color: #f78923;
+  }
+
+  & > img {
+    transform: translateY(-2px);
+  }
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-image: linear-gradient(
+    45deg,
+    #ca4246 16.666%,
+    #e16541 16.666%,
+    #e16541 33.333%,
+    #f18f43 33.333%,
+    #f18f43 50%,
+    #8b9862 50%,
+    #8b9862 66.666%,
+    #476098 66.666%,
+    #476098 83.333%,
+    #a7489b 83.333%
+  );
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-image: linear-gradient(
+    45deg,
+    #ca4246 16.666%,
+    #e16541 16.666%,
+    #e16541 33.333%,
+    #f18f43 33.333%,
+    #f18f43 50%,
+    #8b9862 50%,
+    #8b9862 66.666%,
+    #476098 66.666%,
+    #476098 83.333%,
+    #a7489b 83.333%
+  );
+}
+
+.CardText {
+  font-family: 'Work Sans', sans-serif;
+  font-weight: 800;
+  font-size: 16px;
+  line-height: 0.9em;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 1.5em;
+  margin-top: calc(50vh - 1em);
+  background-color: #ca4246;
+  background-image: linear-gradient(
+    45deg,
+    #ca4246 16.666%,
+    #e16541 16.666%,
+    #e16541 33.333%,
+    #f18f43 33.333%,
+    #f18f43 50%,
+    #8b9862 50%,
+    #8b9862 66.666%,
+    #476098 66.666%,
+    #476098 83.333%,
+    #a7489b 83.333%
+  );
+
+  background-size: 100%;
+  background-repeat: repeat;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: rainbow-text-simple-animation-rev 0.75s ease forwards;
+}
+
+@keyframes rainbow-text-animation {
+  0% {
+    background-size: 57%;
+    background-position: 0 0;
+  }
+  20% {
+    background-size: 57%;
+    background-position: 0 1em;
+  }
+  100% {
+    background-size: 300%;
+    background-position: -9em 1em;
+  }
+}
+
+@keyframes rainbow-text-animation-rev {
+  0% {
+    background-size: 300%;
+    background-position: -9em 1em;
+  }
+  20% {
+    background-size: 57%;
+    background-position: 0 1em;
+  }
+  100% {
+    background-size: 57%;
+    background-position: 0 0;
+  }
+}
+
+.Title {
+  margin: 10px 0 0 10px !important;
+  & > span {
+    background-image: url('https://media.giphy.com/media/26BROrSHlmyzzHf3i/giphy.gif');
+    background-size: cover;
+    color: transparent;
+    -moz-background-clip: text;
+    -webkit-background-clip: text;
+    text-transform: uppercase;
+    font-size: 20px;
+    line-height: 0.75;
+    margin: 10px 0;
+    font-weight: bold;
+    letter-spacing: 1px;
+  }
+}

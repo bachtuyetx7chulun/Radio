@@ -1,0 +1,19 @@
+@import '../variable.scss';
+
+.SidebarItem {
+  display: flex;
+  align-items: center;
+  width: 140px;
+  margin-bottom: 10px;
+}
+
+.SidebarActive {
+  border-right: 2px solid $text-color;
+}
+
+.SidebarText {
+  font-size: 14px;
+  font-weight: 500;
+  color: #212121;
+  margin-left: 10px;
+}

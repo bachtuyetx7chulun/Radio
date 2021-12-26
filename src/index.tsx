@@ -1,7 +1,6 @@
-import 'antd/dist/antd.css'
 import './index.css'
 import ReactDOM from 'react-dom'
 import React from 'react'
-import Home from '@page/home'
+import App from '@page/App'
 
-ReactDOM.render(<Home />, document.getElementById('root'))
+ReactDOM.render(<App />, document.getElementById('root'))
