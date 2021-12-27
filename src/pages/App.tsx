@@ -5,6 +5,7 @@ import React, { FC, ReactElement, useEffect } from 'react'
 import { io } from 'socket.io-client'
 import styles from '@styles/App.module.scss'
 import SearchBox from '@components/Search'
+import PlayGround from '@components/Playground'
 
 const App: FC = (): ReactElement => {
   const socket = io('http://localhost:3000/booking')
@@ -25,7 +26,9 @@ const App: FC = (): ReactElement => {
       <SOCKET.Provider value={socket}>
         <div className={styles.App}>
           {/* <SideBar /> */}
-          <div className={styles.Main}>main</div>
+          <div className={styles.Main}>
+            <PlayGround />
+          </div>
           <SearchBox />
           <ListTrack />
         </div>

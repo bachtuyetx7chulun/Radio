@@ -1,9 +1,24 @@
+import { getPlayList } from '@adapters/xhr/get-playlist'
 import { Avatar, Card, Grid, Row, Text } from '@nextui-org/react'
 import styles from '@styles/List/ListTrack.module.scss'
 import { CONVERT_YTB_DURATION_TO_SECONDS, RANDOM_COLOR } from '@utils/index'
-import React, { FC, ReactElement } from 'react'
+import React, { FC, ReactElement, useEffect } from 'react'
 
 const ListTrack: FC = (): ReactElement => {
+  const [track, setTrack] = React.useState<any>({
+    total: 0,
+    videos: [],
+  })
+  useEffect(() => {
+    initial()
+  }, [])
+
+  const initial = async () => {
+    const playList = await getPlayList()
+    setTrack(playList)
+    console.log(playList)
+  }
+
   return (
     <div className={styles.ListTrack}>
       <Grid.Container>
@@ -20,7 +35,6 @@ const ListTrack: FC = (): ReactElement => {
               size="large"
               src="https://steamuserimages-a.akamaihd.net/ugc/845965530651950588/6A91EC93BBBD9753AFAFBF9531830D37E4D73F3F/?imw=5000&imh=5000&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false"
               color="success"
-              style={{ marginBottom: 'auto', marginTop: 'auto' }}
               squared
             />
             <div className={styles.CardContent}>
@@ -54,12 +68,12 @@ const ListTrack: FC = (): ReactElement => {
             </div>
           </Card>
         </Grid>
-        {[1, 23, 2, 3, 23, 2, 3, 4, 4, 4, 4, 4].map((_, index) => {
+        {track?.videos.map((video: any) => {
           return (
-            <Grid xs={12} className={`${styles.ListItem} ${styles.ItemWrap}`} key={index}>
+            <Grid xs={12} className={`${styles.ListItem} ${styles.ItemWrap}`} key={video?.id}>
               <Card width="100%" bordered hoverable>
                 <Avatar
-                  src="https://picsum.photos/200/300"
+                  src={video?.snippet?.thumbnails?.medium?.url}
                   size={50}
                   style={{ marginBottom: 'auto', marginTop: 'auto' }}
                 />
@@ -76,13 +90,13 @@ const ListTrack: FC = (): ReactElement => {
                       textOverflow: 'ellipsis',
                     }}
                   >
-                    Netrum & Halvorsen - Phoenix Phoenix
+                    {video?.snippet?.title}
                   </Text>
                   <Row className={styles.MarginLeft5}>
                     <div className={styles.OptionDetail}>
                       <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAJlJREFUSEtjZKAxYKSx+QyjFhAM4YENoiveBqv/MTHX6m0+e4OgU3EowOuDK94G/0H6GP8zNGhvu9BIjiVEWQAx+P8NRkamWu0t59eQYhEJFsCNXUNKsJFjAdgmYoONbAuIDbbBa8H//wyNutsuNBCKcHJ8QKtIpmEyJTY4sAUXoSCibVFBKAKJkR/Y0pQYFxJSM+oDQiHEAAAxwVAZc2rZCQAAAABJRU5ErkJggg==" />
                       <Text size={13} weight="bold" transform="uppercase" color="#816F6A">
-                        {CONVERT_YTB_DURATION_TO_SECONDS('PT2M4S')}
+                        {CONVERT_YTB_DURATION_TO_SECONDS(video?.contentDetails?.duration)}
                       </Text>
                     </div>
                     <div className={`${styles.OptionDetail} ${styles.MarginLeft10}`}>
@@ -91,7 +105,7 @@ const ListTrack: FC = (): ReactElement => {
                         src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAASpJREFUSEvFlcFxwjAQRf+CuacBM+TI6BBTQSiBDgIVpJZUQNIBJSQdiMMORzLQQO4YNiNNnLGxZdnYSnyy9Mf/zV/tyoTADwX2x/8ADtPpgobDJxJJTEIBPuVyeRnvdhuztvpg8EzAxOpEWs7nt0zPV6WQYJ8kd1GariGycJTu/Wd/XqkTbdIoWt1r/ZXpBcBRKQ3goeO56Jh5VgIclFoSsO5obj8XYDVmfjXvvwmOSpn4j30AAHzEzLaMeYD0ZG5tYmbr/aeAsCUKfsimXj216TZmtgNaOAOzsIN2OplS3ToL23Q0mjsHrSOkZF5KkMW6IUmluRPQMonTvBbQEFJr7gV4IF7zRgAHpJF5Y8AVBNetWHeHtfplmu4yZvk+912QrQA+syo9OOAbnnqVGQbaO3kAAAAASUVORK5CYII="
                       />
                       <Text size={13} style={{ marginLeft: '2px' }} weight="bold" transform="uppercase" color="#816F6A">
-                        1,000
+                        {video?.statistics?.likeCount}
                       </Text>
                     </div>
                   </Row>

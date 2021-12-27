@@ -3,6 +3,8 @@ import { Avatar, Button, Card, Col, Grid, Input, Modal, Row, Text } from '@nextu
 import styles from '@styles/Search/Search.module.scss'
 import { CONVERT_YTB_DURATION_TO_SECONDS } from '@utils/index'
 import React, { FC, ReactElement, useRef, useState } from 'react'
+import _ from 'lodash'
+import { postVideo } from '@adapters/xhr/post-suggest'
 
 const SearchBox: FC = (): ReactElement => {
   const [visible, setVisible] = useState(false)
@@ -29,13 +31,36 @@ const SearchBox: FC = (): ReactElement => {
     }, 500)
   }
 
+  const handleChooseVideo = (video: any) => {
+    const currentList = addList.filter((item: any) => item.id === video.id)
+
+    if (_.isEmpty(currentList) && addList.length < 5) {
+      const currentAddList = [...addList, video]
+      setAddList(currentAddList)
+    }
+  }
+
+  const handleRemoveVideo = (videoId: string) => {
+    const currentList = _.remove(addList, (video) => video?.id !== videoId)
+    setAddList(currentList)
+  }
+
+  const handleSubmit = async () => {
+    const videoIds = addList.map((video) => video.id)
+    const data = await postVideo(videoIds)
+
+    if (!_.isEmpty(data)) {
+      setAddList([])
+    }
+  }
+
   return (
     <div className={styles.SearchBox}>
       <Grid.Container style={{ padding: '0 10px' }}>
         <Text className={styles.Title}>
           <span>Voting</span>
         </Text>
-        <Grid xs={12} className={styles.SearchWrap} onClick={handler}>
+        <Grid xs={12} className={styles.SearchWrap} onClick={handler} style={{ marginBottom: '7px' }}>
           <div className={styles.FlexCenter}>
             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAAXNSR0IArs4c6QAAApFJREFUSEvlll9SGkEQxr/eoSrkSTxByAmCJ4iUaLlY/DtB9AbmBOIJYk4QcgIIlGxVxFJPEG4QPEHWp5AqZzrV6y7uysKOVCgfMm/s9Mxvvv6meyC80KAX4sIaPPAutg3RO4epYIh9MmZcr+7drHrwpeCud1VU0CcADlMBBB+MnoY6bbnlyXMOsRDcH14eg/iT7WZMOG7sVz7bxqeCB96ow8CHaBMCvoqy+z/qutUq+93uVSH3Sm+D0IzHAejU3cqRDXwO/ETprTKmeXCwN1602fn595J2nB6AN0EM08d6decsC54Ah57+DBfd6qkqiUL5LSqdvG44oCKTGevfuZv4nMprOVwA11BvszxPgOMpVsZsRUqDLDh8AkZhpoTgM9COfA2V/5B5sabmVtIvZLhBAtz3Rpy28KnniTTGUjuLI/j1/crmsnTPwFKnDLoKwIxWrVoR32ZjMByJb9fyfTAcNZnQAbABgq9ZbUlqw+/dh8NzuebuXi+Cz8DxS6WnajPyb9HCBCQ8qNwDlde/bC7ZDPzNu2gTSJoF6m7FqqPJGol3JBOhusguBp823N1gPm2srDhts7jiNLvia6w9zqpLmY+nP14VSxXLZN8bSc1u2JRD2mbx259ll1Ud26iN13GWv2HJPm77pHNN9FRtZd1uWR16K82jCOBOT1Uxa11Wr54oY1oWvVpqV6BWXWtOcaQ9pVN1QNyL+nOg8PX9ezA1099qOqq7O9JgFo5/9R7fEdBLPpHL4Zn/QHLQbQZE2Uba8eUimWnuTDzte5eHAH95jFsMt+pQQY1KL2enxGQKDtPYYTNJ894Wbg22Kakoxga+FvBDM4qnfT7lawM/wuXRmb/hawWvVE7P8XSV2P9P8V9zV24uBO66UQAAAABJRU5ErkJggg==" />
             <span className={styles.Span}>Quick search...</span>
@@ -45,8 +70,8 @@ const SearchBox: FC = (): ReactElement => {
             <span className={styles.SpanK}>K</span>
           </div>
         </Grid>
-        <Grid xs={12} hidden={addList.length !== 0}>
-          <Text color="grey" size={12} style={{ marginBottom: '10px' }}>
+        <Grid xs={12}>
+          <Text hidden={addList.length !== 0} color="#645a5a" size={12} style={{ marginBottom: '10px' }}>
             You don't have a track to submit !
           </Text>
         </Grid>
@@ -83,12 +108,12 @@ const SearchBox: FC = (): ReactElement => {
                         src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAASpJREFUSEvFlcFxwjAQRf+CuacBM+TI6BBTQSiBDgIVpJZUQNIBJSQdiMMORzLQQO4YNiNNnLGxZdnYSnyy9Mf/zV/tyoTADwX2x/8ADtPpgobDJxJJTEIBPuVyeRnvdhuztvpg8EzAxOpEWs7nt0zPV6WQYJ8kd1GariGycJTu/Wd/XqkTbdIoWt1r/ZXpBcBRKQ3goeO56Jh5VgIclFoSsO5obj8XYDVmfjXvvwmOSpn4j30AAHzEzLaMeYD0ZG5tYmbr/aeAsCUKfsimXj216TZmtgNaOAOzsIN2OplS3ToL23Q0mjsHrSOkZF5KkMW6IUmluRPQMonTvBbQEFJr7gV4IF7zRgAHpJF5Y8AVBNetWHeHtfplmu4yZvk+912QrQA+syo9OOAbnnqVGQbaO3kAAAAASUVORK5CYII="
                       />
                       <Text size={13} style={{ marginLeft: '2px' }} weight="bold" transform="uppercase" color="#816F6A">
-                        1,000
+                        {video?.statistics?.likeCount}
                       </Text>
                     </div>
                   </Row>
                 </div>
-                <div className={styles.AddButton}>
+                <div className={styles.AddButton} onClick={() => handleRemoveVideo(video?.id)}>
                   <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAXdJREFUSEvFlUFygjAUhv+HXQveoAtc155A3HaGKb1Be4L2JvUI7Q1UZrqVI+BaOtMbCK6V1wkjKWDAgDplF5L3f//LS14IV/7oyvpQArbu8JmJX8EYaRkghASe9hffn9X1JcDGu7WM9GapLXysFqbGbjKY/cT5VAmwde2QgTst13WLCKG5iO6PAIlrvwF4P0v8EEygl76//hBDmcFF3P/ZlllIQOLaXON+DoYDglmaZyQgBAAeVXGmH2XapwBz04+8zcNwZBgcSAgjSVNyBl/rMHHtmQqiC4jTPU2EkIQAyMWzfz1eArCqWegCRFwJIn5IYI24WNMGUIKIQZPzPJN2gMKeS0CxJooq6wMK4sJ5aYsaIHqAivihoDgqfPUI69aAgZnlR0+KPZeFP/eYQkAIcBRHMWYgIMA756J1ak0ErPp+lNXr1E3uCFA0u4Ze1ApSdH/xDIT4vrdzlA9O7NqiYONWdmX/xwqgaf4GFDX+59HvkkVdzC+IOOMZlOvqjQAAAABJRU5ErkJggg==" />
                 </div>
               </Card>
@@ -96,7 +121,7 @@ const SearchBox: FC = (): ReactElement => {
           )
         })}
         <Grid xs={12}>
-          <Button color="gradient" auto disabled={addList.length === 0}>
+          <Button color="gradient" auto disabled={addList.length === 0} onClick={handleSubmit}>
             Submit
           </Button>
         </Grid>
@@ -166,10 +191,7 @@ const SearchBox: FC = (): ReactElement => {
             bordered
             fullWidth
             color="primary"
-            size="large"
             placeholder="Search video ..."
-            contentLeftStyling={true}
-            contentRightStyling={true}
             onChange={(e) => handleSearch(e.target.value)}
             contentLeft={
               <img
@@ -210,10 +232,7 @@ const SearchBox: FC = (): ReactElement => {
                     xs={12}
                     sm={6}
                     key={video?.id}
-                    onClick={() => {
-                      const currentAddList = [...addList, video]
-                      setAddList(currentAddList)
-                    }}
+                    onClick={() => handleChooseVideo(video)}
                     style={{ cursor: 'pointer' }}
                   >
                     <Card width="100%" cover>
