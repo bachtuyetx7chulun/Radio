@@ -1,3 +1,4 @@
+import { ValidationPipe } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
 import { NestExpressApplication } from '@nestjs/platform-express'
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger'
@@ -6,6 +7,7 @@ import { NextFunction, Request, Response } from 'express'
 
 async function Application() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule)
+  app.useGlobalPipes(new ValidationPipe())
   app.setGlobalPrefix('/api/v1')
   app.use((_: Request, res: Response, next: NextFunction) => {
     res.header('Access-Control-Allow-Origin', '*')

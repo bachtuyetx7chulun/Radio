@@ -3,6 +3,7 @@ import { google } from 'googleapis'
 
 @Injectable()
 export class ActionService {
+  // * Search for a video
   public async search(query: string): Promise<any> {
     const youtube = google.youtube({
       version: 'v3',
@@ -22,6 +23,7 @@ export class ActionService {
     return ListVideo?.items
   }
 
+  // * Get channel by id
   public async getChannel(channelId: string): Promise<any> {
     const youtube = google.youtube({
       version: 'v3',
@@ -34,5 +36,10 @@ export class ActionService {
     })
 
     return data?.items[0]
+  }
+
+  // * Post guess list video form client
+  public async postSugguest(videoIds: string[]) {
+    return videoIds
   }
 }

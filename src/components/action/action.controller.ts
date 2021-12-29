@@ -1,6 +1,7 @@
-import { Controller, Get, Query } from '@nestjs/common'
-import { ApiParam } from '@nestjs/swagger'
+import { Body, Controller, Get, Post, Query } from '@nestjs/common'
+import { ApiBody, ApiParam } from '@nestjs/swagger'
 import { ActionService } from './action.service'
+import { PostVideoIds } from './dto/action.request'
 
 @Controller('action')
 export class ActionController {
@@ -18,5 +19,14 @@ export class ActionController {
   })
   async getChannel(@Query() query: { channelId: string }): Promise<any> {
     return this.actionService.getChannel(query.channelId)
+  }
+
+  @Post('send-sugguest')
+  @ApiBody({
+    type: PostVideoIds,
+    description: 'List video id to suguest',
+  })
+  async postSugguest(@Body() body: PostVideoIds): Promise<any> {
+    return this.actionService.postSugguest(body.video_ids)
   }
 }
