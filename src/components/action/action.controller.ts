@@ -1,32 +1,23 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common'
-import { ApiBody, ApiParam } from '@nestjs/swagger'
+import { Body, Controller, Get, Header, Ip, Post, Req } from '@nestjs/common'
+import { ApiBody } from '@nestjs/swagger'
 import { ActionService } from './action.service'
-import { PostVideoIds } from './dto/action.request'
+import { PostVideosIds } from './dto/action.request'
 
 @Controller('action')
 export class ActionController {
   constructor(private readonly actionService: ActionService) {}
-  @Get('search-videos')
-  @ApiParam({ name: 'q', description: 'Search query' })
-  async search(@Query() query: { q: string }): Promise<any> {
-    return this.actionService.search(query.q)
-  }
-
-  @Get('search-channel')
-  @ApiParam({
-    type: 'string',
-    name: 'channelId',
-  })
-  async getChannel(@Query() query: { channelId: string }): Promise<any> {
-    return this.actionService.getChannel(query.channelId)
-  }
 
   @Post('send-sugguest')
   @ApiBody({
-    type: PostVideoIds,
+    type: PostVideosIds,
     description: 'List video id to suguest',
   })
-  async postSugguest(@Body() body: PostVideoIds): Promise<any> {
-    return this.actionService.postSugguest(body.video_ids)
+  async postSugguest(@Ip() ip: string, @Body() body: PostVideosIds): Promise<any> {
+    return this.actionService.postSugguest(ip, body.video_ids)
+  }
+
+  @Get('get-ip')
+  async getIp(@Ip() ip: string): Promise<any> {
+    return this.actionService.getIp(ip)
   }
 }

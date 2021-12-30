@@ -1,0 +1,11 @@
+-- CreateTable
+CREATE TABLE "Video" (
+    "id" SERIAL NOT NULL,
+    "videoId" TEXT NOT NULL,
+    "votes" INTEGER NOT NULL DEFAULT 0,
+    "isPlaying" BOOLEAN NOT NULL DEFAULT false,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "Video_pkey" PRIMARY KEY ("id")
+);

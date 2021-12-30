@@ -4,11 +4,11 @@ import { ArrayNotEmpty, IsArray, IsString, Matches } from 'class-validator'
 export class PostVideosIds {
   @IsArray()
   @ArrayNotEmpty()
-  @Matches(/^[a-zA-Z0-9_-]{11}$/, { each: true, message: 'Id is not valid' })
+  @Matches(/^[a-zA-Z0-9_-]{11}$/, { each: true })
   @IsString({ each: true })
   @ApiProperty({
     type: [String],
-    example: ['yH88qRmgkGI', 'Il0S8BoucSA', 'orJSJGHjBLI'],
+    example: ['1', '2', '3'],
   })
   video_ids: string[]
 }

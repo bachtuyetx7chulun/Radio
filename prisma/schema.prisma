@@ -14,7 +14,17 @@ model Action {
   id        Int      @id @default(autoincrement())
   name      String
   content   String
+  ipPublic  String
   isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+}
+
+model Video {
+  id        Int      @id @default(autoincrement())
+  videoId   String
+  votes     Int      @default(0)
+  isPlaying Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
 }
