@@ -8,7 +8,7 @@ export class VideoService {
   constructor(private prisma: PrismaService, private youtube: YoutubeService) {}
 
   // * Get vidoes by list video ids
-  public async getTopVideos(): Promise<any> {
+  public async getPlayList(): Promise<any> {
     // TODO: Find video via vote
     const videos = await this.prisma.video.findMany({
       where: {
@@ -17,14 +17,15 @@ export class VideoService {
           not: 0,
         },
       },
-      orderBy: {
-        votes: 'desc',
-      },
     })
 
     if (isEmpty(videos)) return []
     const videoIds = videos.map((video) => video.videoId)
-    return await this.getVideosByIds(videoIds)
+    const playList = await this.getVideosByIds(videoIds)
+    return {
+      total: playList.length,
+      videos: playList,
+    }
   }
 
   // * Get videos through videos ids

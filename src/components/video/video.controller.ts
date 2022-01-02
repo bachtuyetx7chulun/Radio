@@ -6,9 +6,9 @@ import { VideoService } from './video.service'
 export class VideoController {
   constructor(private readonly videoService: VideoService) {}
   // * Get videos by list video ids
-  @Get('getTopVideos')
+  @Get('get-playlist')
   async getVideosByIds(): Promise<any> {
-    return await this.videoService.getTopVideos()
+    return await this.videoService.getPlayList()
   }
 
   // * Search video by name
