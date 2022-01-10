@@ -1,0 +1,22 @@
+version: '3.8'
+services:
+  api:
+    build:
+      context: .
+    container_name: ONSOUND_SERVER
+    env_file:
+      - .env
+    ports:
+      - '3000:3000'
+    restart: unless-stopped
+
+  db:
+    image: postgres:alpine
+    container_name: ONSOUND_DATABASE
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=onsound
+    restart: unless-stopped
+    ports:
+      - '5432:5432'
