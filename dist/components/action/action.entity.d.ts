@@ -2,7 +2,7 @@ export declare class ActionEntity {
     id: number;
     name: string;
     content: string;
-    isActive: boolean;
+    isActived: boolean;
     ipPublic: string;
     createdAt: Date;
     updatedAt: Date;

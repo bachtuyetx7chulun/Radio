@@ -17,6 +17,7 @@ VideoModule = __decorate([
         imports: [],
         controllers: [video_controller_1.VideoController],
         providers: [video_service_1.VideoService],
+        exports: [video_service_1.VideoService],
     })
 ], VideoModule);
 exports.VideoModule = VideoModule;

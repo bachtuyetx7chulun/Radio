@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common'
-import { ActionService } from './action.service'
+import { VideoModule } from 'components/video/video.module'
 import { ActionController } from './action.controller'
+import { ActionService } from './action.service'
 
 @Module({
-  imports: [],
+  imports: [VideoModule],
   controllers: [ActionController],
   providers: [ActionService],
 })

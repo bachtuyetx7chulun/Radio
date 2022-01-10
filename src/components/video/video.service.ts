@@ -12,10 +12,7 @@ export class VideoService {
     // TODO: Find video via vote
     const videos = await this.prisma.video.findMany({
       where: {
-        isPlaying: false,
-        votes: {
-          not: 0,
-        },
+        isPlayed: false,
       },
     })
 

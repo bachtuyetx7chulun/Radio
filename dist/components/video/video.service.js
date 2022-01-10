@@ -22,10 +22,7 @@ let VideoService = class VideoService {
     async getPlayList() {
         const videos = await this.prisma.video.findMany({
             where: {
-                isPlaying: false,
-                votes: {
-                    not: 0,
-                },
+                isPlayed: false,
             },
         });
         if ((0, lodash_1.isEmpty)(videos))

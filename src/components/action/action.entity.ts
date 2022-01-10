@@ -11,7 +11,7 @@ export class ActionEntity {
   content: string
 
   @IsBoolean()
-  isActive: boolean
+  isActived: boolean
 
   @IsString()
   ipPublic: string

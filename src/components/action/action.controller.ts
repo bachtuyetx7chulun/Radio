@@ -1,32 +1,41 @@
-import { Body, Controller, Get, Headers, Post } from '@nestjs/common'
-import { ApiBody, ApiHeaders } from '@nestjs/swagger'
+import { Body, Controller, Get, Post, Req } from '@nestjs/common'
+import { ApiBody } from '@nestjs/swagger'
+import { Request } from 'express'
+import { getIp } from 'utils'
 import { ActionEntity } from './action.entity'
 import { ActionService } from './action.service'
-import { PostVideosIds } from './dto/action.request'
+import { PostVideosId, PostVideosIds } from './dto/action.request'
 
 @Controller('action')
 export class ActionController {
   constructor(private readonly actionService: ActionService) {}
 
   @Post('send-suggest')
-  @ApiHeaders([
-    {
-      name: 'ip',
-      description: 'IP public of user',
-      required: true,
-      example: '118.70.12.190',
-    },
-  ])
   @ApiBody({
     type: PostVideosIds,
     description: 'List video id to suguest',
   })
-  async postSugguest(@Headers() headers: { ip: string }, @Body() body: PostVideosIds): Promise<ActionEntity> {
-    return this.actionService.postSugguest(headers.ip, body.video_ids)
+  async postSugguest(@Req() req: Request, @Body() body: PostVideosIds): Promise<ActionEntity> {
+    const ip = getIp(req)
+    return this.actionService.postSugguest(`${ip}`, body.video_ids)
   }
 
   @Get('handle-suggest')
   async handleSugguest(): Promise<any> {
     return this.actionService.handleSuggest()
+  }
+
+  @Get('current-video')
+  async getCurrentVideo(): Promise<any> {
+    return await this.actionService.getCurrentVideo()
+  }
+
+  @Post('current-video')
+  @ApiBody({
+    type: PostVideosId,
+    description: 'Video id to set current video',
+  })
+  async postCurrentVideo(@Body() body: { video_id: string }): Promise<any> {
+    return await this.actionService.setCurrentVideo(body.video_id)
   }
 }
