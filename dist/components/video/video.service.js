@@ -24,6 +24,9 @@ let VideoService = class VideoService {
             where: {
                 isPlayed: false,
             },
+            orderBy: {
+                createdAt: 'desc',
+            },
         });
         if ((0, lodash_1.isEmpty)(videos))
             return [];
@@ -55,6 +58,15 @@ let VideoService = class VideoService {
             part: ['snippet'],
         });
         return data === null || data === void 0 ? void 0 : data.items[0];
+    }
+    async getTrending(maxResults) {
+        const { data } = await this.youtube.videos.list({
+            chart: 'mostPopular',
+            videoCategoryId: '10',
+            part: ['snippet', 'contentDetails', 'statistics'],
+            maxResults: maxResults || 10,
+        });
+        return data === null || data === void 0 ? void 0 : data.items;
     }
 };
 VideoService = __decorate([

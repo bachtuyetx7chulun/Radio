@@ -38,4 +38,14 @@ export class ActionController {
   async postCurrentVideo(@Body() body: { video_id: string }): Promise<any> {
     return await this.actionService.setCurrentVideo(body.video_id)
   }
+
+  @Get('trending-videos')
+  async getTrendingVideos(): Promise<any> {
+    return await this.actionService.getTrending()
+  }
+
+  @Get('generate-videos')
+  async generateVideos(): Promise<any> {
+    return await this.actionService.getRandomVideos()
+  }
 }

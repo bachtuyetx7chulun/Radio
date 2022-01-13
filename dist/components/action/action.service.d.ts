@@ -18,6 +18,14 @@ export declare class ActionService {
         videoId: string;
         votes: number;
     }[]>;
-    getCurrentVideo(): Promise<import(".prisma/client").Play>;
+    getCurrentVideo(): Promise<{
+        duration: any;
+        id: number;
+        videoId: string;
+        createdAt: Date;
+        updatedAt: Date;
+    }>;
     setCurrentVideo(videoId: string): Promise<import(".prisma/client").Play>;
+    getTrending(): Promise<any>;
+    getRandomVideos(): Promise<any[]>;
 }

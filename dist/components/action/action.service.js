@@ -83,12 +83,30 @@ let ActionService = class ActionService {
         return sortVideoIds;
     }
     async getCurrentVideo() {
+        var _a, _b, _c, _d;
         const currentVideo = await this.prisma.play.findFirst({
             orderBy: {
                 createdAt: 'desc',
             },
         });
-        return currentVideo;
+        if (_.isEmpty(currentVideo)) {
+            const video = await this.prisma.video.findFirst({
+                where: {
+                    isPlayed: false,
+                },
+            });
+            if (_.isEmpty(video))
+                throw new common_1.BadRequestException('Videos is not exist');
+            const newPlayVideo = await this.prisma.play.create({
+                data: {
+                    videoId: video.videoId,
+                },
+            });
+            const detailVideo = await this.videoService.getVideosByIds([video.videoId]);
+            return Object.assign(Object.assign({}, newPlayVideo), { duration: (_b = (_a = detailVideo[0]) === null || _a === void 0 ? void 0 : _a.contentDetails) === null || _b === void 0 ? void 0 : _b.duration });
+        }
+        const detailVideo = await this.videoService.getVideosByIds([currentVideo.videoId]);
+        return Object.assign(Object.assign({}, currentVideo), { duration: (_d = (_c = detailVideo[0]) === null || _c === void 0 ? void 0 : _c.contentDetails) === null || _d === void 0 ? void 0 : _d.duration });
     }
     async setCurrentVideo(videoId) {
         const latestVideo = await this.prisma.play.findFirst({
@@ -120,6 +138,30 @@ let ActionService = class ActionService {
             },
         });
         return newPlayVideo;
+    }
+    async getTrending() {
+        return await this.videoService.getTrending();
+    }
+    async getRandomVideos() {
+        const playList = await this.prisma.video.findMany({
+            where: {
+                isPlayed: false,
+            },
+        });
+        if (playList.length > 1)
+            return playList;
+        const videos = await this.videoService.getTrending(35);
+        const randomVideos = _.sampleSize(videos, 5);
+        const randomVideoIds = randomVideos.map((video) => {
+            return {
+                videoId: video === null || video === void 0 ? void 0 : video.id,
+                votes: 1,
+            };
+        });
+        await this.prisma.video.createMany({
+            data: randomVideoIds,
+        });
+        return randomVideos;
     }
 };
 ActionService = __decorate([

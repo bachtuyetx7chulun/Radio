@@ -8,4 +8,5 @@ export declare class VideoService {
     getVideosByIds(videoIds: string[]): Promise<any>;
     search(query: string): Promise<any>;
     getChannel(channelId: string): Promise<any>;
+    getTrending(maxResults?: number): Promise<any>;
 }

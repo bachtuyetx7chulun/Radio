@@ -14,6 +14,9 @@ export class VideoService {
       where: {
         isPlayed: false,
       },
+      orderBy: {
+        createdAt: 'desc',
+      },
     })
 
     if (isEmpty(videos)) return []
@@ -52,5 +55,17 @@ export class VideoService {
     })
 
     return data?.items[0]
+  }
+
+  // * Get top trending videos
+  public async getTrending(maxResults?: number): Promise<any> {
+    const { data } = await this.youtube.videos.list({
+      chart: 'mostPopular',
+      videoCategoryId: '10',
+      part: ['snippet', 'contentDetails', 'statistics'],
+      maxResults: maxResults || 10,
+    })
+
+    return data?.items
   }
 }

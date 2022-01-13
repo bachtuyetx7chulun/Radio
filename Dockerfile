@@ -3,7 +3,6 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 RUN npm install
 COPY . /usr/src/app
-RUN npx prisma migrate dev init
 RUN npx prisma generate
 RUN npm run build
 

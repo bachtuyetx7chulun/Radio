@@ -35,6 +35,12 @@ let ActionController = class ActionController {
     async postCurrentVideo(body) {
         return await this.actionService.setCurrentVideo(body.video_id);
     }
+    async getTrendingVideos() {
+        return await this.actionService.getTrending();
+    }
+    async generateVideos() {
+        return await this.actionService.getRandomVideos();
+    }
 };
 __decorate([
     (0, common_1.Post)('send-suggest'),
@@ -71,6 +77,18 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], ActionController.prototype, "postCurrentVideo", null);
+__decorate([
+    (0, common_1.Get)('trending-videos'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], ActionController.prototype, "getTrendingVideos", null);
+__decorate([
+    (0, common_1.Get)('generate-videos'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], ActionController.prototype, "generateVideos", null);
 ActionController = __decorate([
     (0, common_1.Controller)('action'),
     __metadata("design:paramtypes", [action_service_1.ActionService])

@@ -4,6 +4,7 @@ import { NestExpressApplication } from '@nestjs/platform-express'
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger'
 import { AppModule } from 'app.module'
 import { NextFunction, Request, Response } from 'express'
+import { PostWorker } from 'worker/post'
 
 async function Application() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule)
@@ -29,6 +30,8 @@ async function Application() {
     .build()
   const document = SwaggerModule.createDocument(app, config)
   SwaggerModule.setup('api-docs', app, document)
+
+  new PostWorker()
   await app.listen(process.env.PORT)
 }
 

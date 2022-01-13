@@ -11,4 +11,6 @@ export declare class ActionController {
     postCurrentVideo(body: {
         video_id: string;
     }): Promise<any>;
+    getTrendingVideos(): Promise<any>;
+    generateVideos(): Promise<any>;
 }

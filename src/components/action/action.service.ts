@@ -98,7 +98,33 @@ export class ActionService {
       },
     })
 
-    return currentVideo
+    if (_.isEmpty(currentVideo)) {
+      const video = await this.prisma.video.findFirst({
+        where: {
+          isPlayed: false,
+        },
+      })
+
+      if (_.isEmpty(video)) throw new BadRequestException('Videos is not exist')
+
+      const newPlayVideo = await this.prisma.play.create({
+        data: {
+          videoId: video.videoId,
+        },
+      })
+
+      const detailVideo = await this.videoService.getVideosByIds([video.videoId])
+      return {
+        ...newPlayVideo,
+        duration: detailVideo[0]?.contentDetails?.duration,
+      }
+    }
+
+    const detailVideo = await this.videoService.getVideosByIds([currentVideo.videoId])
+    return {
+      ...currentVideo,
+      duration: detailVideo[0]?.contentDetails?.duration,
+    }
   }
 
   // * Set current video
@@ -138,5 +164,36 @@ export class ActionService {
     })
 
     return newPlayVideo
+  }
+
+  // * Get top music
+  public async getTrending() {
+    return await this.videoService.getTrending()
+  }
+
+  // * Get random videos
+  public async getRandomVideos() {
+    const playList = await this.prisma.video.findMany({
+      where: {
+        isPlayed: false,
+      },
+    })
+
+    if (playList.length > 1) return playList
+
+    const videos = await this.videoService.getTrending(35)
+    const randomVideos = _.sampleSize(videos, 5)
+    const randomVideoIds = randomVideos.map((video) => {
+      return {
+        videoId: video?.id,
+        votes: 1,
+      }
+    })
+
+    await this.prisma.video.createMany({
+      data: randomVideoIds,
+    })
+
+    return randomVideos
   }
 }
