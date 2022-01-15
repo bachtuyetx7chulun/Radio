@@ -8,3 +8,4 @@ examples
 interfaces/*
 src/styles/*
 src/index.css
+src/contexts/*

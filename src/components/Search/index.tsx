@@ -2,15 +2,17 @@ import { searchVideo } from '@adapters/xhr/search-video'
 import { Avatar, Button, Card, Col, Grid, Input, Modal, Row, Text } from '@nextui-org/react'
 import styles from '@styles/Search/Search.module.scss'
 import { CONVERT_YTB_DURATION_TO_SECONDS } from '@utils/index'
-import React, { FC, ReactElement, useRef, useState } from 'react'
+import React, { FC, ReactElement, useEffect, useRef, useState } from 'react'
 import _ from 'lodash'
 import { postVideo } from '@adapters/xhr/post-suggest'
+import { getTrendingVideos } from '@adapters/xhr/get-trending-video'
 
 const SearchBox: FC = (): ReactElement => {
   const [visible, setVisible] = useState(false)
   const [videos, setVideos] = useState<any[]>([])
   const [search, setSearch] = useState('')
   const [addList, setAddList] = useState<any[]>([])
+  const [trendingVideos, setTrendingVideos] = useState<any[]>([])
   const searchRef = useRef<any>(null)
   const handler = () => setVisible(true)
   const closeHandler = () => {
@@ -53,6 +55,15 @@ const SearchBox: FC = (): ReactElement => {
       setAddList([])
     }
   }
+
+  useEffect(() => {
+    const trending = async () => {
+      const data = await getTrendingVideos()
+      setTrendingVideos(data)
+    }
+
+    trending()
+  }, [])
 
   return (
     <div className={styles.SearchBox}>
@@ -130,12 +141,12 @@ const SearchBox: FC = (): ReactElement => {
             <span>Suggest</span>
           </Text>
         </Grid>
-        {[1, 23, 2, 3, 23, 5, 5, 5, 5, 5].map((_, index) => {
+        {trendingVideos.map((video, index) => {
           return (
             <Grid xs={12} className={`${styles.ListItem} ${styles.ItemWrap}`} key={index}>
               <Card width="100%" bordered hoverable>
                 <Avatar
-                  src="https://picsum.photos/200/300"
+                  src={video?.snippet?.thumbnails?.medium?.url}
                   size={50}
                   style={{ marginBottom: 'auto', marginTop: 'auto' }}
                 />
@@ -147,13 +158,13 @@ const SearchBox: FC = (): ReactElement => {
                     className={`${styles.MarginLeft10} ${styles.MarginTop5}`}
                     style={{ lineHeight: 1.1, width: '210px' }}
                   >
-                    Netrum & Halvorsen - Phoenix
+                    {video?.snippet?.title}
                   </Text>
                   <Row className={styles.MarginLeft5}>
                     <div className={styles.OptionDetail}>
                       <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAJlJREFUSEtjZKAxYKSx+QyjFhAM4YENoiveBqv/MTHX6m0+e4OgU3EowOuDK94G/0H6GP8zNGhvu9BIjiVEWQAx+P8NRkamWu0t59eQYhEJFsCNXUNKsJFjAdgmYoONbAuIDbbBa8H//wyNutsuNBCKcHJ8QKtIpmEyJTY4sAUXoSCibVFBKAKJkR/Y0pQYFxJSM+oDQiHEAAAxwVAZc2rZCQAAAABJRU5ErkJggg==" />
                       <Text size={13} weight="bold" transform="uppercase" color="#816F6A">
-                        2:50
+                        {CONVERT_YTB_DURATION_TO_SECONDS(video?.contentDetails?.duration)}
                       </Text>
                     </div>
                     <div className={`${styles.OptionDetail} ${styles.MarginLeft10}`}>
@@ -161,14 +172,18 @@ const SearchBox: FC = (): ReactElement => {
                         style={{ width: '13px' }}
                         src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAASpJREFUSEvFlcFxwjAQRf+CuacBM+TI6BBTQSiBDgIVpJZUQNIBJSQdiMMORzLQQO4YNiNNnLGxZdnYSnyy9Mf/zV/tyoTADwX2x/8ADtPpgobDJxJJTEIBPuVyeRnvdhuztvpg8EzAxOpEWs7nt0zPV6WQYJ8kd1GariGycJTu/Wd/XqkTbdIoWt1r/ZXpBcBRKQ3goeO56Jh5VgIclFoSsO5obj8XYDVmfjXvvwmOSpn4j30AAHzEzLaMeYD0ZG5tYmbr/aeAsCUKfsimXj216TZmtgNaOAOzsIN2OplS3ToL23Q0mjsHrSOkZF5KkMW6IUmluRPQMonTvBbQEFJr7gV4IF7zRgAHpJF5Y8AVBNetWHeHtfplmu4yZvk+912QrQA+syo9OOAbnnqVGQbaO3kAAAAASUVORK5CYII="
                       />
+
                       <Text size={13} style={{ marginLeft: '2px' }} weight="bold" transform="uppercase" color="#816F6A">
-                        1,000
+                        {video?.statistics?.likeCount}
                       </Text>
                     </div>
                   </Row>
                 </div>
                 <div className={styles.AddButton}>
-                  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAPRJREFUSEtjZKAxYKSx+QxYLXBq/5XAyPg/n4GBwYBIB1xgYGScsLecbSG6ehQLHPr/CzD//LWfBIPRzbvwl53N8UAh4weYBIoFzh0/LzAwMOgT6Wpcyi7srWA3xLDAqfNHAeN/xn4KDQdr//+fMXFfJdsCEBvuAyq5HuY+uC+QLfhPyPV7K9jB6p07fhKtdtQCnKEKC068QQRTRChusMXJ4LAA3eWjqYjozEOzjEYoNSHJX9xbwQ4u6knKycRagKuwIxhERFoAdz0tfHDxLzubA9YKx6n9xwFGRkZ7Il2Jruzi//+ME2B1ALLkwFT6ZPoCqzYAn/6SGYHO5j4AAAAASUVORK5CYII=" />
+                  <img
+                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAPRJREFUSEtjZKAxYKSx+QxYLXBq/5XAyPg/n4GBwYBIB1xgYGScsLecbSG6ehQLHPr/CzD//LWfBIPRzbvwl53N8UAh4weYBIoFzh0/LzAwMOgT6Wpcyi7srWA3xLDAqfNHAeN/xn4KDQdr//+fMXFfJdsCEBvuAyq5HuY+uC+QLfhPyPV7K9jB6p07fhKtdtQCnKEKC068QQRTRChusMXJ4LAA3eWjqYjozEOzjEYoNSHJX9xbwQ4u6knKycRagKuwIxhERFoAdz0tfHDxLzubA9YKx6n9xwFGRkZ7Il2Jruzi//+ME2B1ALLkwFT6ZPoCqzYAn/6SGYHO5j4AAAAASUVORK5CYII="
+                    onClick={() => handleChooseVideo(video)}
+                  />
                 </div>
               </Card>
             </Grid>

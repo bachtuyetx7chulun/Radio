@@ -1,3 +1,5 @@
 export * from './axios'
 export * from './search-channel'
 export * from './search-video'
+export * from './get-current-video'
+export * from './get-playlist'
