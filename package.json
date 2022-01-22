@@ -2,7 +2,7 @@
   "name": "catch-idol-game-fe",
   "version": "1.0.0",
   "scripts": {
-    "dev": "vite --host --port=3001",
+    "start": "vite --host --port=3001",
     "build": "tsc && vite build",
     "serve": "vite preview",
     "lint-staged": "lint-staged",
