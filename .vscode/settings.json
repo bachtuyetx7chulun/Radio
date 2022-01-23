@@ -1,0 +1,5 @@
+{
+    "yaml.schemas": {
+        "https://json.schemastore.org/github-workflow.json": "file:///e%3A/Programing/Web/Projects/P08%20-%20Onsound/FE%20-%20Onsound/.github/workflows/deploy.yaml"
+    }
+}
